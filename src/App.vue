@@ -1,7 +1,11 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import TodayGame from './components/game/TodayGame.vue'
 </script>
 
 <template>
-  <HelloWorld />
+    <main>
+        <h1>KBO Dashboard</h1>
+
+        <TodayGame />
+    </main>
 </template>
