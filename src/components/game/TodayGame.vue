@@ -30,19 +30,41 @@ onMounted(() => {
             :key="game.gameId"
             class="game-card"
         >
-            <div>
-                {{ game.time }} / {{ game.stadium }}
+            <!-- 경기 시간 / 구장 -->
+            <div class="game-info">
+                {{ game.time }} · {{ game.stadium }}
             </div>
 
-            <div>
-                {{ game.awayTeam }}
-                {{ game.awayScore }}
-                :
-                {{ game.homeScore }}
-                {{ game.homeTeam }}
+            <!-- 팀 -->
+            <div class="teams">
+                <span>{{ game.awayTeam }}</span>
+
+                <!-- 경기 전 -->
+                <span v-if="game.gameState === '1'">
+                    VS
+                </span>
+
+                <!-- 경기 시작 후 -->
+                <span v-else>
+                    {{ game.awayScore }} : {{ game.homeScore }}
+                </span>
+
+                <span>{{ game.homeTeam }}</span>
             </div>
 
-            <div>
+            <!-- 경기 전 -->
+            <div
+                v-if="game.gameState === '1'"
+                class="game-before"
+            >
+                경기 시작 전입니다
+            </div>
+
+            <!-- 경기 시작 후 -->
+            <div
+                v-else
+                class="inning"
+            >
                 {{ game.inning }}회 {{ game.inningHalf }}
             </div>
         </div>
