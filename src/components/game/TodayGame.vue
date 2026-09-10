@@ -7,7 +7,6 @@ const games = ref([])
 const getTodayGames = async () => {
     try {
         const response = await axios.get('/api/games/live')
-
         games.value = response.data
 
         console.log('오늘 경기:', games.value)
@@ -37,30 +36,56 @@ onMounted(() => {
 
             <!-- 팀 -->
             <div class="teams">
-                <span>{{ game.awayTeam }}</span>
+                <div class="team away-team">
+                    <span class="team-name">
+                        {{ game.awayTeam }}
+                    </span>
+                </div>
 
-                <!-- 경기 전 -->
-                <span v-if="game.gameState === '1'">
+                <!-- 경기 시작 전 -->
+                <div
+                    v-if="game.gameState === '1'"
+                    class="score"
+                >
                     VS
-                </span>
+                </div>
 
                 <!-- 경기 시작 후 -->
-                <span v-else>
+                <div
+                    v-else
+                    class="score"
+                >
                     {{ game.awayScore }} : {{ game.homeScore }}
-                </span>
+                </div>
 
-                <span>{{ game.homeTeam }}</span>
+                <div class="team home-team">
+                    <span class="team-name">
+                        {{ game.homeTeam }}
+                    </span>
+                </div>
             </div>
 
-            <!-- 경기 전 -->
+            <!-- 경기 시작 전 선발투수 -->
             <div
                 v-if="game.gameState === '1'"
-                class="game-before"
+                class="starting-pitchers"
             >
-                경기 시작 전입니다
+                <div class="pitcher">
+                    <span class="pitcher-label">선발</span>
+                    <strong>{{ game.awayPitcher || '미정' }}</strong>
+                </div>
+
+                <div class="pitcher-vs">
+                    VS
+                </div>
+
+                <div class="pitcher">
+                    <span class="pitcher-label">선발</span>
+                    <strong>{{ game.homePitcher || '미정' }}</strong>
+                </div>
             </div>
 
-            <!-- 경기 시작 후 -->
+            <!-- 경기 시작 후 이닝 -->
             <div
                 v-else
                 class="inning"
@@ -70,3 +95,7 @@ onMounted(() => {
         </div>
     </section>
 </template>
+
+<style scoped>
+
+</style>
