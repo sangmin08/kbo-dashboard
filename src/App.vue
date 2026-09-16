@@ -1,11 +1,17 @@
 <script setup>
-import TodayGame from './components/game/TodayGame.vue'
+import Header from './components/common/Header.vue'
 </script>
 
 <template>
-    <main>
-        <h1>KBO Dashboard</h1>
+    <Header />
 
-        <TodayGame />
+    <main class="main">
+        <router-view />
     </main>
 </template>
+
+<style scoped>
+.main {
+    width: 100%;
+}
+</style>

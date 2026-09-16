@@ -1,22 +1,34 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
 
 const games = ref([])
+let timer = null
 
 const getTodayGames = async () => {
     try {
         const response = await axios.get('/api/games/live')
         games.value = response.data
 
-        console.log('오늘 경기:', games.value)
+        console.log('오늘 경기 갱신:', games.value)
     } catch (error) {
         console.error('오늘 경기 불러오기 실패:', error)
     }
 }
 
 onMounted(() => {
+    // 페이지 들어오자마자 한 번 호출
     getTodayGames()
+
+    // 이후 30초마다 자동 갱신
+    timer = setInterval(() => {
+        getTodayGames()
+    }, 30000)
+})
+
+onUnmounted(() => {
+    // 페이지를 벗어나면 요청 중지
+    clearInterval(timer)
 })
 </script>
 
